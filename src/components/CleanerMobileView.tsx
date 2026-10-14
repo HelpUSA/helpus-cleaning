@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Property, Cleaner, CleaningTask } from '../types';
 import { Language, translations } from '../i18n/translations';
 import {
@@ -11,10 +11,7 @@ import {
   MapPin,
   Clock,
   Wifi,
-  Sparkles,
-  Check,
-  Send,
-  Plus
+  Check
 } from 'lucide-react';
 
 interface CleanerMobileViewProps {
@@ -84,15 +81,15 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
             <Smartphone className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white">Modo Cleaner Mobile (App de Campo)</h2>
+            <h2 className="text-sm font-bold text-white">{t.mobileAppTitle}</h2>
             <p className="text-xs text-slate-400">
-              Simulador do aplicativo para smartphone que os diaristas utilizam no local em Gulf Shores, AL.
+              {t.mobileAppSubtitle}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <label className="text-xs text-slate-400 font-semibold">Simular como:</label>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <label className="text-xs text-slate-400 font-semibold">{t.simulateAs}</label>
           <select
             value={selectedCleanerId}
             onChange={(e) => setSelectedCleanerId(e.target.value)}
@@ -109,7 +106,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
             onClick={() => setIsFramed(!isFramed)}
             className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1.5 rounded-lg bg-slate-950 transition"
           >
-            {isFramed ? '📱 Modo Celular' : '🖥️ Modo Tela Cheia'}
+            {isFramed ? t.btnPhoneMode : t.btnFullscreenMode}
           </button>
         </div>
       </div>
@@ -119,19 +116,19 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
         <div
           className={`${
             isFramed
-              ? 'bg-slate-950 border-[10px] border-slate-800 rounded-[48px] shadow-2xl p-4 overflow-hidden relative ring-1 ring-slate-700'
-              : 'bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl'
+              ? 'bg-slate-950 border-[8px] sm:border-[10px] border-slate-800 rounded-[36px] sm:rounded-[48px] shadow-2xl p-3 sm:p-4 overflow-hidden relative ring-1 ring-slate-700'
+              : 'bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl'
           }`}
         >
           {/* Smartphone Speaker Notch */}
           {isFramed && (
-            <div className="w-28 h-4 bg-slate-800 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <div className="w-3 h-3 bg-slate-950 rounded-full"></div>
+            <div className="w-24 sm:w-28 h-3.5 sm:h-4 bg-slate-800 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+              <div className="w-2.5 h-2.5 bg-slate-950 rounded-full"></div>
             </div>
           )}
 
           {/* Cleaner Mobile App Header */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 flex items-center justify-between shadow-sm">
+          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-2.5">
               <img
                 src={currentCleaner?.avatar}
@@ -141,19 +138,22 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
               <div>
                 <p className="text-xs font-bold text-white">{currentCleaner?.name}</p>
                 <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Em serviço (Gulf Shores)
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> {t.onDutyNotice}
                 </p>
               </div>
             </div>
-            <span className="text-[10px] font-black bg-amber-400 text-slate-950 px-2 py-0.5 rounded">
-              HELPUS APP
-            </span>
+            <div className="flex items-center gap-1.5">
+              <img src="/logo.png" alt="HelpUS Logo" className="w-6 h-6 rounded-full" />
+              <span className="text-[10px] font-black bg-amber-400 text-slate-950 px-2 py-0.5 rounded">
+                HELPUS
+              </span>
+            </div>
           </div>
 
           {/* Select Turnover Job */}
           <div className="mt-3">
             <label className="text-[11px] font-semibold text-slate-400 block mb-1">
-              Imóvel em Atendimento:
+              {t.unitUnderService}
             </label>
             <select
               value={activeTaskId}
@@ -185,7 +185,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                     {currentProperty.code}
                   </span>
                   <span className="absolute bottom-2 right-2 bg-emerald-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded shadow">
-                    Seu Ganho: ${activeTask.payoutAmount}
+                    {t.yourEarning} ${activeTask.payoutAmount}
                   </span>
                 </div>
 
@@ -201,7 +201,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                   <div className="grid grid-cols-2 gap-2 bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 text-[11px]">
                     <div>
                       <span className="text-slate-400 flex items-center gap-1 text-[10px]">
-                        <KeyRound className="w-3 h-3 text-amber-400" /> Fechadura:
+                        <KeyRound className="w-3 h-3 text-amber-400" /> {t.doorLock}:
                       </span>
                       <span className="font-mono font-bold text-amber-400 text-xs">
                         {currentProperty.doorCode}
@@ -209,7 +209,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                     </div>
                     <div>
                       <span className="text-slate-400 flex items-center gap-1 text-[10px]">
-                        <Wifi className="w-3 h-3 text-sky-400" /> Wi-Fi:
+                        <Wifi className="w-3 h-3 text-sky-400" /> {t.wifi}:
                       </span>
                       <span className="font-mono text-slate-200 text-xs truncate block">
                         {currentProperty.wifiPassword}
@@ -224,26 +224,28 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                       className="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-400/20 transition active:scale-95"
                     >
                       <Play className="w-4 h-4 fill-slate-950" />
-                      INICIAR FAXINA (CLOCK-IN)
+                      {t.btnStartClean}
                     </button>
                   ) : activeTask.status === 'in_progress' ? (
                     <div className="space-y-2">
                       <div className="bg-sky-500/10 border border-sky-500/30 rounded-xl p-2.5 text-center text-xs text-sky-300 flex items-center justify-center gap-2">
                         <Clock className="w-4 h-4 text-sky-400 animate-spin" />
-                        <span>Faxina iniciada às {activeTask.startedAt || '10:00'}. Cronômetro Ativo.</span>
+                        <span>
+                          {t.cleanStartedNotice} {activeTask.startedAt || '10:00'}. {t.liveTimerActive}
+                        </span>
                       </div>
                       <button
                         onClick={() => onClockOut(activeTask.id)}
                         className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition active:scale-95"
                       >
                         <Check className="w-4 h-4" />
-                        CONCLUIR TURNOVER (CLOCK-OUT)
+                        {t.btnFinishClean}
                       </button>
                     </div>
                   ) : (
                     <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-center text-xs text-emerald-400 font-bold flex items-center justify-center gap-2">
                       <CheckCircle2 className="w-4 h-4" />
-                      Turnover Concluído! Aguardando Inspeção.
+                      {t.turnoverCompletedNotice}
                     </div>
                   )}
                 </div>
@@ -256,22 +258,22 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                   className="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition"
                 >
                   <Camera className="w-4 h-4 text-sky-400" />
-                  Foto Evidência
+                  {t.btnEvidencePhoto}
                 </button>
                 <button
                   onClick={() => setShowDamageModal(true)}
                   className="bg-slate-900 hover:bg-slate-800 text-rose-400 border border-rose-500/30 font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition"
                 >
                   <AlertTriangle className="w-4 h-4" />
-                  Reportar Dano
+                  {t.btnReportDamage}
                 </button>
               </div>
 
               {/* Room Checklists Accordion */}
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-                  <span>Checklist Obrigatório</span>
-                  <span className="text-[10px] text-amber-400 font-mono">Toque para marcar</span>
+                  <span>{t.mandatoryChecklist}</span>
+                  <span className="text-[10px] text-amber-400 font-mono">{t.tapToToggle}</span>
                 </h4>
 
                 <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
@@ -319,7 +321,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
               {activeTask.photos.length > 0 && (
                 <div className="space-y-2">
                   <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                    Fotos Anexadas ({activeTask.photos.length})
+                    {t.attachedPhotos} ({activeTask.photos.length})
                   </h4>
                   <div className="grid grid-cols-2 gap-2">
                     {activeTask.photos.map((p) => (
@@ -342,11 +344,11 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
             <div className="absolute inset-0 z-50 bg-slate-950/90 backdrop-blur-sm p-4 flex items-center justify-center">
               <div className="bg-slate-900 border border-slate-700 rounded-2xl p-5 w-full space-y-3">
                 <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
-                  <Camera className="w-4 h-4 text-sky-400" /> Tirar / Anexar Foto de Evidência
+                  <Camera className="w-4 h-4 text-sky-400" /> {t.photoModalTitle}
                 </h3>
                 <form onSubmit={handlePhotoSubmit} className="space-y-2.5 text-xs">
                   <div>
-                    <label className="block text-slate-400 mb-1">Legenda da Foto</label>
+                    <label className="block text-slate-400 mb-1">{t.photoCaptionLabel}</label>
                     <input
                       type="text"
                       required
@@ -356,7 +358,7 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1">URL da Imagem / Captura</label>
+                    <label className="block text-slate-400 mb-1">{t.photoUrlLabel}</label>
                     <input
                       type="text"
                       required
@@ -371,13 +373,13 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                       onClick={() => setShowPhotoModal(false)}
                       className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg"
                     >
-                      Cancelar
+                      {t.btnCancel}
                     </button>
                     <button
                       type="submit"
                       className="px-3 py-1.5 bg-sky-400 text-slate-950 font-bold rounded-lg"
                     >
-                      Salvar Foto
+                      {t.btnSavePhoto}
                     </button>
                   </div>
                 </form>
@@ -390,11 +392,11 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
             <div className="absolute inset-0 z-50 bg-slate-950/90 backdrop-blur-sm p-4 flex items-center justify-center">
               <div className="bg-slate-900 border border-slate-700 rounded-2xl p-5 w-full space-y-3">
                 <h3 className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4" /> Reportar Avaria ou Manutenção
+                  <AlertTriangle className="w-4 h-4" /> {t.damageModalTitle}
                 </h3>
                 <form onSubmit={handleDamageSubmit} className="space-y-2.5 text-xs">
                   <div>
-                    <label className="block text-slate-400 mb-1">Cômodo Afetado</label>
+                    <label className="block text-slate-400 mb-1">{t.affectedRoomLabel}</label>
                     <input
                       type="text"
                       required
@@ -404,10 +406,10 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1">Descrição do Problema</label>
+                    <label className="block text-slate-400 mb-1">{t.damageDescLabel}</label>
                     <textarea
                       required
-                      placeholder="Ex: Torneira da pia vazando ou espelho trincado"
+                      placeholder={t.damagePlaceholder}
                       value={damageDesc}
                       onChange={(e) => setDamageDesc(e.target.value)}
                       className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white h-20"
@@ -419,13 +421,13 @@ export const CleanerMobileView: React.FC<CleanerMobileViewProps> = ({
                       onClick={() => setShowDamageModal(false)}
                       className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg"
                     >
-                      Cancelar
+                      {t.btnCancel}
                     </button>
                     <button
                       type="submit"
                       className="px-3 py-1.5 bg-rose-500 text-white font-bold rounded-lg"
                     >
-                      Enviar Reporte
+                      {t.btnSendReport}
                     </button>
                   </div>
                 </form>

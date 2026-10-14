@@ -13,13 +13,14 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenCookies }) => {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 py-10 text-center text-xs text-slate-400 mt-20">
       <div className="max-w-6xl mx-auto px-4 space-y-4">
-        {/* HelpUS Official Header Line */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
+        {/* HelpUS Official Header Line with Logo */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <img src="/logo.png" alt="HelpUS Logo" className="w-8 h-8 rounded-full border border-amber-400" />
           <span className="bg-amber-400 text-slate-950 font-extrabold px-2 py-0.5 rounded text-[11px]">HELPUS LLC</span>
-          <span className="font-semibold text-slate-300">Soluções Inteligentes em Tecnologia & Hospitalidade</span>
-          <span className="text-slate-600">•</span>
+          <span className="font-semibold text-slate-300">{t.footerTitle}</span>
+          <span className="text-slate-600 hidden sm:inline">•</span>
           <span className="text-amber-400 flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5" /> Gulf Shores Vacation Rental Hub (AL, EUA)
+            <ShieldCheck className="w-3.5 h-3.5" /> {t.footerHub}
           </span>
         </div>
 
@@ -41,12 +42,11 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenCookies }) => {
 
         {/* Operational System Notice */}
         <p className="text-[11px] text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Módulo Unificado de Automação de Reservas (Estilo OwnerRez) e Gestão de Limpeza em Tempo Real (Estilo ResortCleaning).
-          Desenvolvido com padrão corporativo para anfitriões e empresas de higienização de imóveis por temporada.
+          {t.footerSubtitle}
         </p>
 
         {/* Legal & Cookie Policy Trigger */}
-        <div className="flex justify-center items-center gap-6 pt-3 text-slate-500 border-t border-slate-900">
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 pt-3 text-slate-500 border-t border-slate-900">
           <button
             onClick={onOpenCookies}
             className="hover:text-amber-400 hover:underline transition flex items-center gap-1.5"
@@ -55,7 +55,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenCookies }) => {
           </button>
           <span>•</span>
           <span className="text-slate-500">
-            cleaning.helpusbr.com — Todos os direitos reservados © {new Date().getFullYear()}
+            cleaning.helpusbr.com — {t.allRightsReserved} © {new Date().getFullYear()}
           </span>
           <span>•</span>
           <span className="text-emerald-500 flex items-center gap-1">

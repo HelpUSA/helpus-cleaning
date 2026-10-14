@@ -12,7 +12,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
 import { PmsView } from './components/PmsView';
-import { ResortCleaningView } from './components/ResortCleaningView';
+import { HousekeepingView } from './components/HousekeepingView';
 import { CleanerMobileView } from './components/CleanerMobileView';
 import { Sparkles, Calendar, Smartphone, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -66,13 +66,13 @@ export function App() {
     localStorage.setItem('helpus_cleaning_tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  // Handler: Add Booking (Automatically schedules a ResortCleaning turnover task!)
+  // Handler: Add Booking (Automatically schedules a HelpUS Housekeeping turnover task!)
   const handleAddBooking = (newBookingData: Omit<Reservation, 'id'>) => {
     const newId = `res-${Date.now().toString().slice(-4)}`;
     const newBooking: Reservation = { ...newBookingData, id: newId };
     setReservations((prev) => [newBooking, ...prev]);
 
-    // Automatic ResortCleaning turnover creation
+    // Automatic HelpUS Housekeeping turnover creation
     const prop = properties.find((p) => p.id === newBooking.propertyId);
     const assignedCleanerId = prop?.defaultCleanerId || cleaners[0]?.id;
 
@@ -242,7 +242,7 @@ export function App() {
         )}
 
         {currentTab === 'resort' && (
-          <ResortCleaningView
+          <HousekeepingView
             properties={properties}
             cleaners={cleaners}
             tasks={tasks}

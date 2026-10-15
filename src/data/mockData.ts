@@ -93,9 +93,9 @@ export const initialCleaners: Cleaner[] = [
   },
   {
     id: 'cleaner-2',
-    name: 'Alex & Equipe Coastal',
+    name: 'Coastal Elite Cleaners',
     phone: '+1 (251) 555-0199',
-    email: 'alex.crew@gulfcoastalclean.com',
+    email: 'crew@gulfcoastalclean.com',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     rating: 5.0,
     payoutRate: 160,
@@ -238,7 +238,7 @@ export const initialTasks: CleaningTask[] = [
     id: 'task-501',
     propertyId: 'prop-2',
     reservationId: 'res-103',
-    cleanerId: 'cleaner-2', // Alex & Equipe
+    cleanerId: 'cleaner-2', // Coastal Elite Cleaners
     scheduledDate: '2026-10-13',
     timeWindow: '10:00 - 15:00',
     status: 'inspected',
@@ -272,7 +272,7 @@ export const initialTasks: CleaningTask[] = [
     id: 'task-502',
     propertyId: 'prop-1',
     reservationId: 'res-101',
-    cleanerId: 'cleaner-2', // Alex & Equipe
+    cleanerId: 'cleaner-2', // Coastal Elite Cleaners
     scheduledDate: '2026-10-14',
     timeWindow: '10:00 - 15:30',
     status: 'pending',

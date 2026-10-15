@@ -23,7 +23,7 @@ export function App() {
 
   // User Profile
   const [user, setUser] = useState<{ name: string; email: string; avatar: string } | null>({
-    name: 'Wagner & Alex (SuperAdmin)',
+    name: 'SuperAdmin HelpUS',
     email: 'helpus.ecommerce@gmail.com',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80'
   });
@@ -221,7 +221,7 @@ export function App() {
         user={user}
         onLogin={() =>
           setUser({
-            name: 'Alex & Wagner',
+            name: 'SuperAdmin HelpUS',
             email: 'helpus.ecommerce@gmail.com',
             avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
           })

@@ -436,6 +436,7 @@ export const translations = {
     damageModalTitle: "Report Damage or Maintenance",
     affectedRoomLabel: "Affected Room",
     damageDescLabel: "Problem Description",
+    damagePlaceholder: "e.g. Leaky bathroom faucet or cracked balcony chair",
     btnSendReport: "Submit Report",
     // Ribbon View & Advanced Operations Strings
     viewModeTable: "Table View",

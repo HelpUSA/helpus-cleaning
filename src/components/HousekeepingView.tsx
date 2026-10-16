@@ -531,11 +531,11 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
             {/* Damage Reports */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg space-y-3">
               <h3 className="font-bold text-rose-400 text-sm uppercase tracking-wider">{t.damagesSection}</h3>
-              {tasks.flatMap((t) => t.damageReports).length === 0 ? (
+              {tasks.flatMap((taskItem) => taskItem.damageReports).length === 0 ? (
                 <p className="text-xs text-slate-500 py-4 text-center">{t.noDamages}</p>
               ) : (
-                tasks.flatMap((t) =>
-                  t.damageReports.map((d) => (
+                tasks.flatMap((taskItem) =>
+                  taskItem.damageReports.map((d) => (
                     <div key={d.id} className="bg-slate-950 p-3 rounded-xl border border-rose-500/20 text-xs space-y-1">
                       <div className="flex justify-between items-center">
                         <span className="font-bold text-slate-200">{d.room}</span>
@@ -554,11 +554,11 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
             {/* Lost & Found */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg space-y-3">
               <h3 className="font-bold text-sky-400 text-sm uppercase tracking-wider">{t.lostFoundSection}</h3>
-              {tasks.flatMap((t) => t.lostAndFound).length === 0 ? (
+              {tasks.flatMap((taskItem) => taskItem.lostAndFound).length === 0 ? (
                 <p className="text-xs text-slate-500 py-4 text-center">{t.noLostItems}</p>
               ) : (
-                tasks.flatMap((t) =>
-                  t.lostAndFound.map((lf) => (
+                tasks.flatMap((taskItem) =>
+                  taskItem.lostAndFound.map((lf) => (
                     <div key={lf.id} className="bg-slate-950 p-3 rounded-xl border border-sky-500/20 text-xs space-y-1">
                       <div className="flex justify-between items-center">
                         <span className="font-bold text-slate-200">{lf.item}</span>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Language, translations } from '../i18n/translations';
-import { Sparkles, Calendar, Smartphone, Cloud, Globe, ShieldCheck } from 'lucide-react';
+import { Sparkles, Calendar, Smartphone, Cloud, Globe, ShieldCheck, KeyRound } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: 'landing' | 'pms' | 'resort' | 'portal' | 'cleaner';

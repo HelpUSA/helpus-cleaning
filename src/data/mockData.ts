@@ -1,4 +1,145 @@
-import { Property, Reservation, Cleaner, CleaningTask } from '../types';
+import { Property, Reservation, Cleaner, CleaningTask, PropertyOwner, CleaningCompany, MaterialSupply } from '../types';
+
+export const initialOwners: PropertyOwner[] = [
+  {
+    id: 'owner-1',
+    name: 'Harrison Beach Properties LLC',
+    email: 'harrison.rentals@gulfshoresinvest.com',
+    phone: '+1 (251) 555-0782',
+    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80',
+    propertiesCount: 2,
+    assignedPropertyIds: ['prop-1', 'prop-2'],
+    status: 'active',
+    contractStart: '2024-01-15',
+    notes: 'Exige fotos de inspeção pós-limpeza anexadas em cada ordem de serviço.'
+  },
+  {
+    id: 'owner-2',
+    name: 'Dolphin Coast Holdings',
+    email: 'invest@dolphincoastllc.com',
+    phone: '+1 (404) 555-0914',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
+    propertiesCount: 1,
+    assignedPropertyIds: ['prop-5'],
+    status: 'active',
+    contractStart: '2023-06-01',
+    notes: 'Mansão de praia com piscina. Requer produtos ecológicos.'
+  },
+  {
+    id: 'owner-3',
+    name: 'Dr. Michael & Laura Sterling',
+    email: 'm.sterling@medicalsuites.com',
+    phone: '+1 (615) 555-0329',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    propertiesCount: 2,
+    assignedPropertyIds: ['prop-3', 'prop-4'],
+    status: 'active',
+    contractStart: '2025-02-10',
+    notes: 'Costumam utilizar o imóvel 1 semana por mês (Owner Stay).'
+  }
+];
+
+export const initialCompanies: CleaningCompany[] = [
+  {
+    id: 'company-1',
+    name: 'Gulf Coast Clean Pro Services',
+    contactName: 'Diretoria de Operações',
+    email: 'ops@cleanproal.com',
+    phone: '+1 (251) 555-0140',
+    address: '1240 Gulf Shores Pkwy, Suite 200',
+    city: 'Gulf Shores',
+    state: 'AL',
+    activeStaffCount: 8,
+    assignedPropertiesCount: 12,
+    rating: 4.95,
+    status: 'active',
+    insuranceVerified: true
+  },
+  {
+    id: 'company-2',
+    name: 'Coastal Elite Turnovers LLC',
+    contactName: 'Coordenação de Escalas',
+    email: 'dispatch@gulfcoastalclean.com',
+    phone: '+1 (251) 555-0190',
+    address: '25405 Perdido Beach Blvd',
+    city: 'Orange Beach',
+    state: 'AL',
+    activeStaffCount: 14,
+    assignedPropertiesCount: 22,
+    rating: 4.98,
+    status: 'active',
+    insuranceVerified: true
+  }
+];
+
+export const initialMaterials: MaterialSupply[] = [
+  {
+    id: 'mat-1',
+    name: 'Desinfetante Hospitalar Multissuperfície Pro 5L',
+    category: 'cleaning_chemical',
+    unit: 'Galão 5L',
+    quantityInStock: 24,
+    minThreshold: 8,
+    costPerUnit: 28.50,
+    supplier: 'Ecolab Hospitality',
+    location: 'Depósito Central Gulf Shores'
+  },
+  {
+    id: 'mat-2',
+    name: 'Kit Enxoval Lençóis 400 Fios Algodão King',
+    category: 'linen',
+    unit: 'Conjunto Completo',
+    quantityInStock: 45,
+    minThreshold: 15,
+    costPerUnit: 64.00,
+    supplier: 'Standard Textile US',
+    location: 'Lavanderia Industrial Orange Beach'
+  },
+  {
+    id: 'mat-3',
+    name: 'Kit Toalhas de Banho Hotelaria Premium (Gramatura 600g)',
+    category: 'linen',
+    unit: 'Fardo c/ 10 toalhas',
+    quantityInStock: 30,
+    minThreshold: 10,
+    costPerUnit: 78.00,
+    supplier: 'Standard Textile US',
+    location: 'Depósito Central Gulf Shores'
+  },
+  {
+    id: 'mat-4',
+    name: 'Kit de Boas-Vindas Shampoo, Condicionador e Sabonete Eco',
+    category: 'amenity_kit',
+    unit: 'Caixa c/ 100 sachês',
+    quantityInStock: 18,
+    minThreshold: 5,
+    costPerUnit: 42.00,
+    supplier: 'Guest Supply USA',
+    location: 'Depósito Central Gulf Shores'
+  },
+  {
+    id: 'mat-5',
+    name: 'Papel Higiênico Folha Dupla Premium (Fardo 48 rolos)',
+    category: 'paper_goods',
+    unit: 'Fardo 48 rolos',
+    quantityInStock: 52,
+    minThreshold: 20,
+    costPerUnit: 34.50,
+    supplier: 'Georgia-Pacific Commercial',
+    location: 'Depósito Central Gulf Shores'
+  },
+  {
+    id: 'mat-6',
+    name: 'Aspirador Profissional com Filtro HEPA Anti-Areia',
+    category: 'equipment',
+    unit: 'Unidade',
+    quantityInStock: 8,
+    minThreshold: 3,
+    costPerUnit: 220.00,
+    supplier: 'ProTeam Commercial',
+    location: 'Depósito Central Gulf Shores'
+  }
+];
 
 export const initialProperties: Property[] = [
   {

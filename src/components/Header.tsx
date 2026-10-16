@@ -3,8 +3,8 @@ import { Language, translations } from '../i18n/translations';
 import { Sparkles, Calendar, Smartphone, Cloud, Globe, ShieldCheck } from 'lucide-react';
 
 interface HeaderProps {
-  currentTab: 'pms' | 'resort' | 'cleaner';
-  onTabChange: (tab: 'pms' | 'resort' | 'cleaner') => void;
+  currentTab: 'landing' | 'pms' | 'resort' | 'portal' | 'cleaner';
+  onTabChange: (tab: 'landing' | 'pms' | 'resort' | 'portal' | 'cleaner') => void;
   lang: Language;
   onLangChange: (lang: Language) => void;
   user: { name: string; email: string; avatar: string } | null;
@@ -68,36 +68,58 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Unified System Navigation Switcher (Fully responsive overflow/wrap) */}
         <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 shadow-inner max-w-full overflow-x-auto">
           <button
+            onClick={() => onTabChange('landing')}
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+              currentTab === 'landing'
+                ? 'bg-amber-400 text-slate-950 shadow'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>{t.navPresentation}</span>
+          </button>
+          <button
             onClick={() => onTabChange('pms')}
-            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
               currentTab === 'pms'
                 ? 'bg-amber-400 text-slate-950 shadow'
                 : 'text-slate-300 hover:text-white hover:bg-slate-800'
             }`}
           >
-            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <Calendar className="w-3.5 h-3.5 text-sky-400" />
             <span>{t.navPms}</span>
           </button>
           <button
             onClick={() => onTabChange('resort')}
-            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
               currentTab === 'resort'
                 ? 'bg-amber-400 text-slate-950 shadow'
                 : 'text-slate-300 hover:text-white hover:bg-slate-800'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>{t.navHousekeeping}</span>
           </button>
           <button
+            onClick={() => onTabChange('portal')}
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+              currentTab === 'portal'
+                ? 'bg-purple-500 text-white shadow'
+                : 'text-purple-300 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <KeyRound className="w-3.5 h-3.5 text-purple-400" />
+            <span>{t.navPortal}</span>
+          </button>
+          <button
             onClick={() => onTabChange('cleaner')}
-            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
               currentTab === 'cleaner'
                 ? 'bg-sky-500 text-slate-950 shadow'
                 : 'text-sky-400 hover:text-sky-300 hover:bg-slate-800'
             }`}
           >
-            <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <Smartphone className="w-3.5 h-3.5" />
             <span>{t.navCleanerApp}</span>
           </button>
         </div>

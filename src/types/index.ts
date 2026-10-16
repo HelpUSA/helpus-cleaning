@@ -22,6 +22,8 @@ export interface Property {
   notes: string;
   imageUrl: string;
   defaultCleanerId?: string;
+  ownerId?: string;
+  companyId?: string;
 }
 
 export interface Reservation {
@@ -47,6 +49,49 @@ export interface Reservation {
   isTurnaround?: boolean;
 }
 
+export type UserRole = 'superadmin' | 'property_manager' | 'cleaning_company' | 'cleaner' | 'owner';
+
+export interface PropertyOwner {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  avatar?: string;
+  propertiesCount: number;
+  assignedPropertyIds: string[];
+  status: 'active' | 'pending';
+  contractStart?: string;
+  notes?: string;
+}
+
+export interface CleaningCompany {
+  id: string;
+  name: string;
+  contactName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  activeStaffCount: number;
+  assignedPropertiesCount: number;
+  rating: number;
+  status: 'active' | 'suspended';
+  insuranceVerified: boolean;
+}
+
+export interface MaterialSupply {
+  id: string;
+  name: string;
+  category: 'cleaning_chemical' | 'linen' | 'paper_goods' | 'amenity_kit' | 'equipment';
+  unit: string;
+  quantityInStock: number;
+  minThreshold: number;
+  costPerUnit: number;
+  supplier: string;
+  location: string;
+}
+
 export interface Cleaner {
   id: string;
   name: string;
@@ -60,6 +105,7 @@ export interface Cleaner {
   state?: string;
   city?: string;
   whatsapp?: string;
+  companyId?: string;
 }
 
 export interface ChecklistItem {

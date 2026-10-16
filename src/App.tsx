@@ -1,24 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Property, Reservation, Cleaner, CleaningTask } from './types';
+import {
+  Property,
+  Reservation,
+  Cleaner,
+  CleaningTask,
+  PropertyOwner,
+  CleaningCompany,
+  MaterialSupply,
+  UserRole
+} from './types';
 import {
   initialProperties,
   initialCleaners,
   initialReservations,
   initialTasks,
+  initialOwners,
+  initialCompanies,
+  initialMaterials,
   createDefaultChecklists
 } from './data/mockData';
-import { Language, translations } from './i18n/translations';
+import { Language } from './i18n/translations';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
+import { LandingPresentationView } from './components/LandingPresentationView';
 import { PmsView } from './components/PmsView';
 import { HousekeepingView } from './components/HousekeepingView';
+import { RolePortalView } from './components/RolePortalView';
 import { CleanerMobileView } from './components/CleanerMobileView';
-import { Sparkles, Calendar, Smartphone, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export function App() {
   const [lang, setLang] = useState<Language>('pt');
-  const [currentTab, setCurrentTab] = useState<'pms' | 'resort' | 'cleaner'>('pms');
+  const [currentTab, setCurrentTab] = useState<'landing' | 'pms' | 'resort' | 'portal' | 'cleaner'>('landing');
+  const [currentRole, setCurrentRole] = useState<UserRole>('superadmin');
   const [forceCookieModal, setForceCookieModal] = useState(false);
 
   // User Profile
@@ -49,6 +63,21 @@ export function App() {
     return saved ? JSON.parse(saved) : initialTasks;
   });
 
+  const [owners, setOwners] = useState<PropertyOwner[]>(() => {
+    const saved = localStorage.getItem('helpus_cleaning_owners');
+    return saved ? JSON.parse(saved) : initialOwners;
+  });
+
+  const [companies, setCompanies] = useState<CleaningCompany[]>(() => {
+    const saved = localStorage.getItem('helpus_cleaning_companies');
+    return saved ? JSON.parse(saved) : initialCompanies;
+  });
+
+  const [materials, setMaterials] = useState<MaterialSupply[]>(() => {
+    const saved = localStorage.getItem('helpus_cleaning_materials');
+    return saved ? JSON.parse(saved) : initialMaterials;
+  });
+
   // Save changes to localStorage
   useEffect(() => {
     localStorage.setItem('helpus_cleaning_properties', JSON.stringify(properties));
@@ -65,6 +94,18 @@ export function App() {
   useEffect(() => {
     localStorage.setItem('helpus_cleaning_tasks', JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    localStorage.setItem('helpus_cleaning_owners', JSON.stringify(owners));
+  }, [owners]);
+
+  useEffect(() => {
+    localStorage.setItem('helpus_cleaning_companies', JSON.stringify(companies));
+  }, [companies]);
+
+  useEffect(() => {
+    localStorage.setItem('helpus_cleaning_materials', JSON.stringify(materials));
+  }, [materials]);
 
   // Handler: Add Booking (Automatically schedules a HelpUS Housekeeping turnover task!)
   const handleAddBooking = (newBookingData: Omit<Reservation, 'id'>) => {
@@ -84,6 +125,7 @@ export function App() {
       scheduledDate: newBooking.checkOut,
       timeWindow: '10:00 - 15:30',
       status: 'pending',
+      isTurnaround: newBooking.isTurnaround,
       payoutAmount: prop ? prop.cleanerPayout : 140,
       checklists: createDefaultChecklists().map((c) => ({
         ...c,
@@ -100,6 +142,26 @@ export function App() {
   const handleAddProperty = (newPropData: Omit<Property, 'id'>) => {
     const newProp: Property = { ...newPropData, id: `prop-${Date.now().toString().slice(-4)}` };
     setProperties((prev) => [...prev, newProp]);
+  };
+
+  const handleAddOwner = (newOwnerData: Omit<PropertyOwner, 'id'>) => {
+    const newOwner: PropertyOwner = { ...newOwnerData, id: `owner-${Date.now().toString().slice(-4)}` };
+    setOwners((prev) => [...prev, newOwner]);
+  };
+
+  const handleAddCompany = (newCompanyData: Omit<CleaningCompany, 'id'>) => {
+    const newCompany: CleaningCompany = { ...newCompanyData, id: `comp-${Date.now().toString().slice(-4)}` };
+    setCompanies((prev) => [...prev, newCompany]);
+  };
+
+  const handleAddCleaner = (newCleanerData: Omit<Cleaner, 'id'>) => {
+    const newCleaner: Cleaner = { ...newCleanerData, id: `cleaner-${Date.now().toString().slice(-4)}` };
+    setCleaners((prev) => [...prev, newCleaner]);
+  };
+
+  const handleAddMaterial = (newMatData: Omit<MaterialSupply, 'id'>) => {
+    const newMat: MaterialSupply = { ...newMatData, id: `mat-${Date.now().toString().slice(-4)}` };
+    setMaterials((prev) => [...prev, newMat]);
   };
 
   const handleUpdateTaskStatus = (taskId: string, status: CleaningTask['status']) => {
@@ -231,6 +293,17 @@ export function App() {
 
       {/* Main App Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+        {currentTab === 'landing' && (
+          <LandingPresentationView
+            lang={lang}
+            onSelectRoleDemo={(role) => {
+              setCurrentRole(role);
+              setCurrentTab('portal');
+            }}
+            onNavigateToTab={(tab) => setCurrentTab(tab)}
+          />
+        )}
+
         {currentTab === 'pms' && (
           <PmsView
             properties={properties}
@@ -250,6 +323,26 @@ export function App() {
             onUpdateTaskStatus={handleUpdateTaskStatus}
             onAssignCleaner={handleAssignCleaner}
             onInspectTask={handleInspectTask}
+          />
+        )}
+
+        {currentTab === 'portal' && (
+          <RolePortalView
+            currentRole={currentRole}
+            onRoleChange={setCurrentRole}
+            properties={properties}
+            cleaners={cleaners}
+            tasks={tasks}
+            owners={owners}
+            companies={companies}
+            materials={materials}
+            lang={lang}
+            onAddProperty={handleAddProperty}
+            onAddOwner={handleAddOwner}
+            onAddCompany={handleAddCompany}
+            onAddCleaner={handleAddCleaner}
+            onAddMaterial={handleAddMaterial}
+            onNavigateToMobileApp={() => setCurrentTab('cleaner')}
           />
         )}
 

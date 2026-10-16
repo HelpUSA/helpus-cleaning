@@ -22,25 +22,44 @@ export const initialProperties: Property[] = [
   },
   {
     id: 'prop-2',
-    name: 'Gulf Shores Plantation Villa 21',
-    code: 'GSP-21',
-    address: '400 Plantation Rd',
+    name: 'Blue Water Condo 1502',
+    code: 'BW-1502',
+    address: '2119 W Beach Blvd',
     city: 'Gulf Shores',
     state: 'AL',
     zip: '36542',
-    bedrooms: 3,
+    bedrooms: 2,
     bathrooms: 2,
-    baseCleaningFee: 195,
-    cleanerPayout: 165,
-    doorCode: '1029#',
-    wifiSsid: 'Plantation_Villa21',
-    wifiPassword: 'plantationresort',
-    notes: 'Varanda de frente para o mar com mesa externa. Requer reposição do kit de boas-vindas na bancada da cozinha.',
-    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
+    baseCleaningFee: 170,
+    cleanerPayout: 145,
+    doorCode: '5821#',
+    wifiSsid: 'BlueWater_1502_5G',
+    wifiPassword: 'bluewatervacation',
+    notes: 'Vista panorâmica do Golfo. Conferir reposição dos dispensers de sabonete e toalhas de praia.',
+    imageUrl: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
     defaultCleanerId: 'cleaner-1'
   },
   {
     id: 'prop-3',
+    name: 'Shoalwater Oceanfront 205',
+    code: 'SW-205',
+    address: '24720 Perdido Beach Blvd',
+    city: 'Orange Beach',
+    state: 'AL',
+    zip: '36561',
+    bedrooms: 3,
+    bathrooms: 2,
+    baseCleaningFee: 195,
+    cleanerPayout: 165,
+    doorCode: '3190#',
+    wifiSsid: 'Shoalwater_205',
+    wifiPassword: 'shoalwaterbeach',
+    notes: 'Sacada de frente para o mar com mesa externa. Requer reposição do kit de boas-vindas na bancada da cozinha.',
+    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
+    defaultCleanerId: 'cleaner-4'
+  },
+  {
+    id: 'prop-4',
     name: 'Lighthouse Beachfront Suite 802',
     code: 'LH-802',
     address: '455 E Beach Blvd',
@@ -59,9 +78,9 @@ export const initialProperties: Property[] = [
     defaultCleanerId: 'cleaner-3'
   },
   {
-    id: 'prop-4',
-    name: 'Dolphin Haven Beach House',
-    code: 'DH-BEACH',
+    id: 'prop-5',
+    name: 'Dolphin Haven Luxury Villa',
+    code: 'DH-VILLA',
     address: '1840 W Beach Blvd',
     city: 'Gulf Shores',
     state: 'AL',
@@ -89,7 +108,10 @@ export const initialCleaners: Cleaner[] = [
     rating: 4.95,
     payoutRate: 150,
     active: true,
-    assignedPropertiesCount: 5
+    assignedPropertiesCount: 5,
+    state: 'Alabama',
+    city: 'Gulf Shores',
+    whatsapp: '12515550142'
   },
   {
     id: 'cleaner-2',
@@ -100,7 +122,10 @@ export const initialCleaners: Cleaner[] = [
     rating: 5.0,
     payoutRate: 160,
     active: true,
-    assignedPropertiesCount: 8
+    assignedPropertiesCount: 8,
+    state: 'Alabama',
+    city: 'Orange Beach',
+    whatsapp: '12515550199'
   },
   {
     id: 'cleaner-3',
@@ -111,7 +136,24 @@ export const initialCleaners: Cleaner[] = [
     rating: 4.88,
     payoutRate: 140,
     active: true,
-    assignedPropertiesCount: 4
+    assignedPropertiesCount: 4,
+    state: 'Alabama',
+    city: 'Foley',
+    whatsapp: '12515550284'
+  },
+  {
+    id: 'cleaner-4',
+    name: 'Amanda Brooks',
+    phone: '+1 (850) 555-0312',
+    email: 'amanda.brooks@coastalpro.com',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+    rating: 4.92,
+    payoutRate: 155,
+    active: true,
+    assignedPropertiesCount: 6,
+    state: 'Florida',
+    city: 'Perdido Key',
+    whatsapp: '18505550312'
   }
 ];
 
@@ -128,10 +170,12 @@ export const initialReservations: Reservation[] = [
     checkInTime: '16:00',
     checkOutTime: '10:00',
     guestsCount: 4,
+    adultsCount: 2,
+    childrenCount: 2,
     totalAmount: 1480,
     cleaningFee: 165,
-    status: 'in_house',
-    notes: 'Check-out amanhã às 10:00 pontual para permitir turnover antes da próxima reserva.'
+    status: 'checked_out',
+    notes: 'Check-out realizado às 10:00 pontual para permitir turnover rápido (T/A).'
   },
   {
     id: 'res-102',
@@ -145,44 +189,113 @@ export const initialReservations: Reservation[] = [
     checkInTime: '16:00',
     checkOutTime: '10:00',
     guestsCount: 3,
+    adultsCount: 2,
+    childrenCount: 1,
     totalAmount: 1390,
     cleaningFee: 165,
-    status: 'confirmed',
-    notes: 'Check-in no mesmo dia do check-out anterior (Turnover Rápido / Back-to-Back).'
+    status: 'in_house',
+    isTurnaround: true,
+    notes: 'Check-in no mesmo dia do check-out anterior (Turnover Rápido T/A 10h-16h).'
   },
   {
     id: 'res-103',
+    propertyId: 'prop-2',
+    guestName: 'Bloqueio: Reunião do Proprietário',
+    guestEmail: 'owners@beachrentalgroup.com',
+    guestPhone: '+1 (251) 555-0100',
+    channel: 'owner_block',
+    checkIn: '2026-10-12',
+    checkOut: '2026-10-15',
+    checkInTime: '14:00',
+    checkOutTime: '11:00',
+    guestsCount: 2,
+    adultsCount: 2,
+    childrenCount: 0,
+    totalAmount: 0,
+    cleaningFee: 0,
+    status: 'checked_out',
+    isOwnerBlock: true,
+    blockReason: 'Owner Meeting & Property Walkthrough',
+    notes: 'Uso exclusivo dos proprietários. Sem cobrança de taxa de hospedagem.'
+  },
+  {
+    id: 'res-104',
     propertyId: 'prop-2',
     guestName: 'Sarah Jenkins (Direct Booking)',
     guestEmail: 'sarah.j@icloud.com',
     guestPhone: '+1 (205) 884-9022',
     channel: 'direct',
-    checkIn: '2026-10-09',
-    checkOut: '2026-10-13',
+    checkIn: '2026-10-15',
+    checkOut: '2026-10-20',
     checkInTime: '16:00',
     checkOutTime: '10:00',
-    guestsCount: 6,
-    totalAmount: 2150,
-    cleaningFee: 195,
-    status: 'checked_out',
-    notes: 'Reserva direta feita pelo site HelpUS. Hóspedes deixaram gorjeta de $20 na bancada.'
+    guestsCount: 4,
+    adultsCount: 4,
+    childrenCount: 0,
+    totalAmount: 1850,
+    cleaningFee: 170,
+    status: 'confirmed',
+    isTurnaround: true,
+    notes: 'Reserva direta confirmada. Hóspedes VIP chegam às 16:00.'
   },
   {
-    id: 'res-104',
-    propertyId: 'prop-4',
+    id: 'res-105',
+    propertyId: 'prop-3',
     guestName: 'Família Richardson',
     guestEmail: 'richardson.family@yahoo.com',
     guestPhone: '+1 (770) 512-3344',
     channel: 'booking',
     checkIn: '2026-10-11',
-    checkOut: '2026-10-15',
+    checkOut: '2026-10-16',
     checkInTime: '16:00',
     checkOutTime: '10:00',
-    guestsCount: 9,
-    totalAmount: 3890,
-    cleaningFee: 340,
+    guestsCount: 6,
+    adultsCount: 4,
+    childrenCount: 2,
+    totalAmount: 2390,
+    cleaningFee: 195,
     status: 'in_house',
-    notes: 'Festa de aniversário na praia. Equipe dupla agendada para o turnover.'
+    notes: 'Férias de outono da família. Solicitaram 2 toalhas de praia adicionais.'
+  },
+  {
+    id: 'res-106',
+    propertyId: 'prop-4',
+    guestName: 'Mason & Claire Wedding Party',
+    guestEmail: 'mason.claire.wedding@gmail.com',
+    guestPhone: '+1 (404) 831-9920',
+    channel: 'airbnb',
+    checkIn: '2026-10-13',
+    checkOut: '2026-10-17',
+    checkInTime: '16:00',
+    checkOutTime: '10:00',
+    guestsCount: 4,
+    adultsCount: 4,
+    childrenCount: 0,
+    totalAmount: 1560,
+    cleaningFee: 155,
+    status: 'in_house',
+    notes: 'Hóspedes de casamento na praia em Gulf Shores.'
+  },
+  {
+    id: 'res-107',
+    propertyId: 'prop-5',
+    guestName: 'Bloqueio: Manutenção & Pintura Externa',
+    guestEmail: 'maintenance@helpusbr.com',
+    guestPhone: '+1 (251) 555-0999',
+    channel: 'owner_block',
+    checkIn: '2026-10-14',
+    checkOut: '2026-10-17',
+    checkInTime: '08:00',
+    checkOutTime: '17:00',
+    guestsCount: 0,
+    adultsCount: 0,
+    childrenCount: 0,
+    totalAmount: 0,
+    cleaningFee: 0,
+    status: 'in_house',
+    isOwnerBlock: true,
+    blockReason: 'Maintenance / Deep Deck Recoat',
+    notes: 'Imóvel bloqueado para manutenção da piscina e verniz no deck.'
   }
 ];
 
@@ -287,7 +400,7 @@ export const initialTasks: CleaningTask[] = [
   },
   {
     id: 'task-503',
-    propertyId: 'prop-3',
+    propertyId: 'prop-4',
     cleanerId: 'cleaner-3', // Carlos
     scheduledDate: '2026-10-14',
     timeWindow: '11:00 - 16:00',
@@ -322,5 +435,78 @@ export const initialTasks: CleaningTask[] = [
         timestamp: '11:45'
       }
     ]
+  },
+  {
+    id: 'task-504',
+    propertyId: 'prop-2',
+    reservationId: 'res-104',
+    cleanerId: 'cleaner-1', // Maria Santos
+    scheduledDate: '2026-10-15',
+    timeWindow: '10:00 - 15:30',
+    status: 'unconfirmed',
+    isTurnaround: true,
+    isVip: true,
+    payoutAmount: 145,
+    checklists: createDefaultChecklists().map(c => ({
+      ...c,
+      items: c.items.map(i => ({ ...i, done: false }))
+    })),
+    photos: [],
+    damageReports: [],
+    lostAndFound: []
+  },
+  {
+    id: 'task-505',
+    propertyId: 'prop-1',
+    reservationId: 'res-102',
+    cleanerId: undefined,
+    scheduledDate: '2026-10-18',
+    timeWindow: '10:00 - 15:30',
+    status: 'unconfirmed',
+    isTurnaround: true,
+    payoutAmount: 140,
+    checklists: createDefaultChecklists().map(c => ({
+      ...c,
+      items: c.items.map(i => ({ ...i, done: false }))
+    })),
+    photos: [],
+    damageReports: [],
+    lostAndFound: []
+  },
+  {
+    id: 'task-506',
+    propertyId: 'prop-3',
+    reservationId: 'res-105',
+    cleanerId: 'cleaner-4', // Amanda Brooks
+    scheduledDate: '2026-10-16',
+    timeWindow: '10:00 - 15:00',
+    status: 'pending',
+    isTurnaround: false,
+    payoutAmount: 165,
+    checklists: createDefaultChecklists().map(c => ({
+      ...c,
+      items: c.items.map(i => ({ ...i, done: false }))
+    })),
+    photos: [],
+    damageReports: [],
+    lostAndFound: []
+  },
+  {
+    id: 'task-507',
+    propertyId: 'prop-5',
+    reservationId: 'res-107',
+    cleanerId: 'cleaner-2',
+    scheduledDate: '2026-10-17',
+    timeWindow: '08:00 - 16:00',
+    status: 'work_order',
+    taskType: 'work_order',
+    payoutAmount: 220,
+    checklists: createDefaultChecklists().map(c => ({
+      ...c,
+      items: c.items.map(i => ({ ...i, done: false }))
+    })),
+    photos: [],
+    damageReports: [],
+    lostAndFound: []
   }
 ];

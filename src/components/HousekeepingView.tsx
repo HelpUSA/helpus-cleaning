@@ -13,7 +13,14 @@ import {
   Check,
   Eye,
   Phone,
-  RefreshCw
+  RefreshCw,
+  Zap,
+  ShieldAlert,
+  MessageSquare,
+  Wrench,
+  CheckCheck,
+  MapPin,
+  Calendar
 } from 'lucide-react';
 
 interface HousekeepingViewProps {
@@ -37,16 +44,36 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
 }) => {
   const t = translations[lang];
   const [selectedTab, setSelectedTab] = useState<'turnovers' | 'cleaners' | 'damage'>('turnovers');
+  const [taskFilter, setTaskFilter] = useState<'all' | 'turnaround' | 'unconfirmed' | 'work_order'>('all');
   const [selectedTaskDetails, setSelectedTaskDetails] = useState<CleaningTask | null>(null);
 
   const getProperty = (id: string) => properties.find((p) => p.id === id);
   const getCleaner = (id?: string) => cleaners.find((c) => c.id === id);
 
-  const pendingCount = tasks.filter((t) => t.status === 'pending').length;
+  // Operational metrics
+  const unconfirmedCount = tasks.filter((t) => t.status === 'unconfirmed').length;
+  const turnaroundCount = tasks.filter((t) => t.isTurnaround).length;
   const inProgressCount = tasks.filter((t) => t.status === 'in_progress').length;
   const completedCount = tasks.filter((t) => t.status === 'completed').length;
   const inspectedCount = tasks.filter((t) => t.status === 'inspected').length;
+  const workOrdersCount = tasks.filter((t) => t.status === 'work_order' || t.taskType === 'work_order').length;
   const totalPayout = tasks.reduce((acc, t) => acc + t.payoutAmount, 0);
+
+  // Batch action: Confirm all unconfirmed appointments
+  const handleConfirmAllAppointments = () => {
+    const unconfirmedTasks = tasks.filter((t) => t.status === 'unconfirmed');
+    unconfirmedTasks.forEach((t) => {
+      onUpdateTaskStatus(t.id, 'pending');
+    });
+  };
+
+  // Filtered tasks based on sub-filter
+  const filteredTasks = tasks.filter((task) => {
+    if (taskFilter === 'turnaround') return task.isTurnaround;
+    if (taskFilter === 'unconfirmed') return task.status === 'unconfirmed';
+    if (taskFilter === 'work_order') return task.status === 'work_order' || task.taskType === 'work_order';
+    return true;
+  });
 
   return (
     <div className="space-y-6 sm:space-y-8 animate-fade-in">
@@ -93,27 +120,77 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
           </div>
         </div>
 
-        {/* Operational Status Metrics (Fully responsive grid) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-3.5 mt-6">
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{t.turnoversToday}</span>
-            <p className="text-lg sm:text-xl font-black text-amber-400 mt-1">{tasks.length}</p>
+        {/* RESORTCLEANING INSPIRED "TODAY'S OPERATIONS BOARD" */}
+        <div className="mt-6 pt-5 border-t border-slate-800/80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+              <h3 className="text-xs font-extrabold text-slate-200 uppercase tracking-wider">
+                {t.resortOpsToday} • Gulf Shores & Orange Beach, AL
+              </h3>
+            </div>
+
+            {/* 1-Click Batch Confirmation Button */}
+            {unconfirmedCount > 0 && (
+              <button
+                onClick={handleConfirmAllAppointments}
+                className="flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black px-3.5 py-1.5 rounded-xl shadow-lg transition"
+              >
+                <CheckCheck className="w-4 h-4" />
+                <span>{t.btnConfirmAll} ({unconfirmedCount})</span>
+              </button>
+            )}
           </div>
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{t.inProgress}</span>
-            <p className="text-lg sm:text-xl font-black text-sky-400 mt-1">{inProgressCount}</p>
-          </div>
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{t.completedCleans}</span>
-            <p className="text-lg sm:text-xl font-black text-indigo-400 mt-1">{completedCount}</p>
-          </div>
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{t.inspectedReady}</span>
-            <p className="text-lg sm:text-xl font-black text-emerald-400 mt-1">{inspectedCount}</p>
-          </div>
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3 col-span-2 sm:col-span-1">
-            <span className="text-[10px] text-slate-400 font-bold uppercase">{t.totalPayoutDue}</span>
-            <p className="text-lg sm:text-xl font-black text-amber-300 mt-1">${totalPayout}</p>
+
+          {/* Operational Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {/* T/A Turn Arounds */}
+            <div className="bg-slate-950/80 border border-amber-500/30 rounded-xl p-3 relative overflow-hidden">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] text-amber-300 font-bold uppercase">{t.taCount}</span>
+                <Zap className="w-4 h-4 text-amber-400 fill-amber-400 animate-pulse" />
+              </div>
+              <p className="text-xl sm:text-2xl font-black text-amber-400 mt-1">{turnaroundCount}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">10h Saída ➔ 16h Entrada</span>
+            </div>
+
+            {/* Unconfirmed Queue */}
+            <div className="bg-slate-950/80 border border-orange-500/30 rounded-xl p-3">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] text-orange-400 font-bold uppercase">{t.unconfirmedCount}</span>
+                <Clock className="w-3.5 h-3.5 text-orange-400" />
+              </div>
+              <p className="text-xl sm:text-2xl font-black text-orange-400 mt-1">{unconfirmedCount}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">Aguardando confirmação</span>
+            </div>
+
+            {/* In Progress */}
+            <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3">
+              <span className="text-[10px] text-slate-400 font-bold uppercase">{t.inProgress}</span>
+              <p className="text-xl sm:text-2xl font-black text-sky-400 mt-1">{inProgressCount}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">Clock-in ativo</span>
+            </div>
+
+            {/* Completed */}
+            <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3">
+              <span className="text-[10px] text-slate-400 font-bold uppercase">{t.completedCleans}</span>
+              <p className="text-xl sm:text-2xl font-black text-indigo-400 mt-1">{completedCount}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">Pronto p/ vistoria</span>
+            </div>
+
+            {/* Inspected Ready */}
+            <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3">
+              <span className="text-[10px] text-slate-400 font-bold uppercase">{t.inspectedReady}</span>
+              <p className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">{inspectedCount}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">Hóspede liberado</span>
+            </div>
+
+            {/* Total Payout */}
+            <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3">
+              <span className="text-[10px] text-slate-400 font-bold uppercase">{t.totalPayoutDue}</span>
+              <p className="text-xl sm:text-2xl font-black text-amber-300 mt-1">${totalPayout}</p>
+              <span className="text-[9px] text-slate-400 block mt-0.5">Remuneração equipes</span>
+            </div>
           </div>
         </div>
       </div>
@@ -121,18 +198,54 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
       {/* Main Tab Content */}
       {selectedTab === 'turnovers' && (
         <section className="space-y-4">
-          <div className="flex flex-wrap justify-between items-center gap-2">
-            <h2 className="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-amber-400" />
-              {t.tabTurnovers} (Gulf Shores, AL)
-            </h2>
+          {/* Sub-Filters: All, T/A, Unconfirmed, Work Orders */}
+          <div className="flex flex-wrap justify-between items-center gap-3">
+            <div className="flex flex-wrap items-center gap-1.5 bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs">
+              <button
+                onClick={() => setTaskFilter('all')}
+                className={`px-3 py-1 rounded-lg font-bold transition ${
+                  taskFilter === 'all' ? 'bg-amber-400 text-slate-950' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Todos ({tasks.length})
+              </button>
+              <button
+                onClick={() => setTaskFilter('turnaround')}
+                className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition ${
+                  taskFilter === 'turnaround' ? 'bg-amber-400 text-slate-950' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Zap className="w-3 h-3 text-amber-400 fill-amber-400" />
+                {t.taCount} ({turnaroundCount})
+              </button>
+              <button
+                onClick={() => setTaskFilter('unconfirmed')}
+                className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition ${
+                  taskFilter === 'unconfirmed' ? 'bg-orange-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Clock className="w-3 h-3" />
+                {t.tabConfirmationQueue} ({unconfirmedCount})
+              </button>
+              <button
+                onClick={() => setTaskFilter('work_order')}
+                className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1 transition ${
+                  taskFilter === 'work_order' ? 'bg-purple-500 text-white' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Wrench className="w-3 h-3" />
+                {t.statusWorkOrder} ({workOrdersCount})
+              </button>
+            </div>
+
             <span className="text-xs text-emerald-400 flex items-center gap-1.5 font-medium">
               <RefreshCw className="w-3.5 h-3.5 animate-spin" /> {t.realtimeSyncNotice}
             </span>
           </div>
 
+          {/* Turnovers Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {tasks.map((task) => {
+            {filteredTasks.map((task) => {
               const prop = getProperty(task.propertyId);
               const cleaner = getCleaner(task.cleanerId);
               const totalItems = task.checklists.reduce((acc, c) => acc + c.items.length, 0);
@@ -141,12 +254,15 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
                 0
               );
               const progressPct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+              const isUnconfirmed = task.status === 'unconfirmed';
 
               return (
                 <div
                   key={task.id}
                   className={`bg-slate-900 border rounded-2xl p-4 sm:p-5 shadow-lg space-y-4 transition-all flex flex-col justify-between ${
-                    task.status === 'inspected'
+                    isUnconfirmed
+                      ? 'border-orange-500/50 bg-gradient-to-b from-orange-950/20 to-slate-900'
+                      : task.status === 'inspected'
                       ? 'border-emerald-500/40 hover:border-emerald-500'
                       : task.status === 'in_progress'
                       ? 'border-sky-500/50 hover:border-sky-400'
@@ -157,31 +273,51 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
                     {/* Card Header: Property & Status Badge */}
                     <div className="flex justify-between items-start gap-2">
                       <div>
-                        <span className="text-[11px] font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                          {prop?.code || 'PROP'}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                            {prop?.code || 'PROP'}
+                          </span>
+                          {task.isTurnaround && (
+                            <span
+                              title={t.turnaroundDesc}
+                              className="inline-flex items-center gap-0.5 bg-amber-400 text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded shadow animate-pulse"
+                            >
+                              <Zap className="w-2.5 h-2.5 fill-slate-950" />
+                              T/A 10h-16h
+                            </span>
+                          )}
+                        </div>
                         <h3 className="font-bold text-slate-100 text-sm mt-1">{prop?.name}</h3>
                         <p className="text-xs text-slate-400 truncate max-w-[200px]">{prop?.address}</p>
                       </div>
 
+                      {/* Status Badges conforming to ResortCleaning colors */}
                       <span
                         className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow whitespace-nowrap ${
-                          task.status === 'inspected'
+                          isUnconfirmed
+                            ? 'bg-orange-500 text-slate-950 animate-pulse'
+                            : task.status === 'work_order'
+                            ? 'bg-purple-600 text-white'
+                            : task.status === 'inspected'
                             ? 'bg-emerald-500 text-slate-950'
                             : task.status === 'completed'
                             ? 'bg-indigo-500 text-white'
                             : task.status === 'in_progress'
                             ? 'bg-sky-500 text-slate-950 animate-pulse'
-                            : 'bg-slate-800 text-slate-300'
+                            : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                         }`}
                       >
-                        {task.status === 'inspected'
+                        {isUnconfirmed
+                          ? t.statusUnconfirmed
+                          : task.status === 'work_order'
+                          ? t.statusWorkOrder
+                          : task.status === 'inspected'
                           ? t.statusInspected
                           : task.status === 'completed'
                           ? t.statusReadyInspection
                           : task.status === 'in_progress'
                           ? t.statusCleaningNow
-                          : t.statusAwaiting}
+                          : t.statusPending}
                       </span>
                     </div>
 
@@ -203,11 +339,12 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
                         <select
                           value={task.cleanerId || ''}
                           onChange={(e) => onAssignCleaner(task.id, e.target.value)}
-                          className="bg-slate-900 border border-slate-700 text-slate-100 rounded px-2 py-1 text-xs"
+                          className="bg-slate-900 border border-slate-700 text-slate-100 rounded px-2 py-1 text-xs max-w-[140px] truncate"
                         >
+                          <option value="">{t.unassigned}</option>
                           {cleaners.map((c) => (
                             <option key={c.id} value={c.id}>
-                              {c.name}
+                              {c.name} ({c.state === 'Florida' ? 'FL' : 'AL'})
                             </option>
                           ))}
                         </select>
@@ -259,20 +396,32 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
 
                   {/* Operational Action Buttons */}
                   <div className="pt-2 flex flex-col sm:flex-row items-center gap-2">
-                    <button
-                      onClick={() => setSelectedTaskDetails(task)}
-                      className="w-full sm:flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl transition flex items-center justify-center gap-1.5"
-                    >
-                      <Eye className="w-3.5 h-3.5" /> {t.btnViewDetails}
-                    </button>
-
-                    {task.status !== 'inspected' && (
+                    {/* Instant Confirm Button for Unconfirmed Tasks */}
+                    {isUnconfirmed ? (
                       <button
-                        onClick={() => onInspectTask(task.id, 99, 'SuperAdmin Master')}
-                        className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition flex items-center justify-center gap-1 shadow-md shadow-emerald-500/20 whitespace-nowrap"
+                        onClick={() => onUpdateTaskStatus(task.id, 'pending')}
+                        className="w-full bg-orange-500 hover:bg-orange-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow"
                       >
-                        <Check className="w-4 h-4" /> {t.btnApproveInspection}
+                        <Check className="w-4 h-4" /> Confirmar Agendamento
                       </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => setSelectedTaskDetails(task)}
+                          className="w-full sm:flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl transition flex items-center justify-center gap-1.5"
+                        >
+                          <Eye className="w-3.5 h-3.5" /> {t.btnViewDetails}
+                        </button>
+
+                        {task.status !== 'inspected' && (
+                          <button
+                            onClick={() => onInspectTask(task.id, 99, 'SuperAdmin Master')}
+                            className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition flex items-center justify-center gap-1 shadow-md shadow-emerald-500/20 whitespace-nowrap"
+                          >
+                            <Check className="w-4 h-4" /> {t.btnApproveInspection}
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -282,7 +431,7 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
         </section>
       )}
 
-      {/* Cleaners & Crews Roster Tab */}
+      {/* Cleaners & Staff Management Tab (Modeled after ResortCleaning staff-management) */}
       {selectedTab === 'cleaners' && (
         <section className="space-y-4">
           <div className="flex flex-wrap justify-between items-center gap-2">
@@ -295,52 +444,73 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {cleaners.map((c) => {
               const cleanerTasks = tasks.filter((t) => t.cleanerId === c.id);
               const earned = cleanerTasks.reduce((acc, t) => acc + t.payoutAmount, 0);
+              const cleanPhone = c.phone.replace(/\D/g, '');
 
               return (
-                <div key={c.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={c.avatar}
-                      alt={c.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-amber-400/60 shadow"
-                    />
-                    <div>
-                      <h3 className="font-bold text-white text-base">{c.name}</h3>
-                      <p className="text-xs text-amber-400 font-semibold flex items-center gap-1">
-                        ⭐ {c.rating} / 5.0 • {c.assignedPropertiesCount} {t.fixedProps}
-                      </p>
-                      <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
-                        <Phone className="w-3 h-3 text-sky-400" /> {c.phone}
-                      </p>
+                <div key={c.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4 flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={c.avatar}
+                        alt={c.name}
+                        className="w-14 h-14 rounded-full object-cover border-2 border-amber-400/60 shadow"
+                      />
+                      <div className="truncate">
+                        <div className="flex items-center gap-1.5">
+                          <h3 className="font-bold text-white text-sm truncate">{c.name}</h3>
+                          <span className={`text-[9px] font-black uppercase px-1.5 py-0.5 rounded ${
+                            c.state === 'Florida' ? 'bg-orange-500/20 text-orange-400' : 'bg-sky-500/20 text-sky-400'
+                          }`}>
+                            {c.state === 'Florida' ? 'FL' : 'AL'}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-amber-400 font-semibold flex items-center gap-1 mt-0.5">
+                          ⭐ {c.rating} • {c.assignedPropertiesCount} {t.fixedProps}
+                        </p>
+                        <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                          {c.city || 'Gulf Shores'}, {c.state || 'Alabama'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5">
+                      <div className="flex justify-between text-slate-300">
+                        <span>{t.assignedTurnovers}:</span>
+                        <span className="font-bold text-white">{cleanerTasks.length}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-300">
+                        <span>{t.avgRate}:</span>
+                        <span className="font-bold text-slate-200">${c.payoutRate}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-300 pt-1.5 border-t border-slate-900">
+                        <span className="text-emerald-400 font-semibold">{t.totalToReceive}:</span>
+                        <span className="font-extrabold text-emerald-400 text-sm">${earned}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1.5">
-                    <div className="flex justify-between text-slate-300">
-                      <span>{t.assignedTurnovers}:</span>
-                      <span className="font-bold text-white">{cleanerTasks.length}</span>
-                    </div>
-                    <div className="flex justify-between text-slate-300">
-                      <span>{t.avgRate}:</span>
-                      <span className="font-bold text-slate-200">${c.payoutRate}</span>
-                    </div>
-                    <div className="flex justify-between text-slate-300 pt-1.5 border-t border-slate-900">
-                      <span className="text-emerald-400 font-semibold">{t.totalToReceive}:</span>
-                      <span className="font-extrabold text-emerald-400 text-sm">${earned}</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-1 flex gap-2">
-                    <button
-                      onClick={() => alert(`Enviando rota para ${c.name} (${c.phone})...`)}
-                      className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl transition"
+                  {/* Quick Dispatch & Contact Buttons */}
+                  <div className="pt-2 grid grid-cols-2 gap-2 text-xs">
+                    <a
+                      href={`tel:${c.phone}`}
+                      className="flex items-center justify-center gap-1 bg-slate-800 hover:bg-slate-700 text-slate-200 py-2 rounded-xl transition font-semibold"
                     >
-                      {t.btnSendRouteWhatsapp}
-                    </button>
+                      <Phone className="w-3.5 h-3.5 text-sky-400" />
+                      <span>{t.btnCall}</span>
+                    </a>
+                    <a
+                      href={`https://wa.me/${c.whatsapp || cleanPhone}?text=Olá%20${encodeURIComponent(c.name)},%20sua%20escala%20de%20turnovers%20HelpUS%20está%20atualizada.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl transition font-bold shadow"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>{t.btnWhatsApp}</span>
+                    </a>
                   </div>
                 </div>
               );
@@ -448,27 +618,34 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
             </div>
 
             {/* Photo Evidence Gallery */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                {t.modalAuditPhotos}
+                {t.modalAuditPhotos} ({selectedTaskDetails.photos.length})
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {selectedTaskDetails.photos.map((p) => (
-                  <div key={p.id} className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
-                    <img src={p.url} alt={p.caption} className="w-full h-36 object-cover" />
-                    <div className="p-2 text-[11px]">
-                      <p className="font-semibold text-slate-200">{p.caption}</p>
-                      <p className="text-slate-500 text-[10px]">{t.registeredAt} {p.timestamp}</p>
+              {selectedTaskDetails.photos.length === 0 ? (
+                <p className="text-xs text-slate-500 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                  Nenhuma foto anexada ainda.
+                </p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {selectedTaskDetails.photos.map((p) => (
+                    <div key={p.id} className="relative rounded-xl overflow-hidden border border-slate-800 group">
+                      <img src={p.url} alt={p.caption} className="w-full h-28 object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent p-2 flex flex-col justify-end text-[10px]">
+                        <span className="font-bold text-white line-clamp-1">{p.caption}</span>
+                        <span className="text-slate-400 font-mono">{p.timestamp}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
+            {/* Modal Bottom Actions */}
             <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
               <button
                 onClick={() => setSelectedTaskDetails(null)}
-                className="px-4 py-2 bg-slate-800 text-slate-200 rounded-lg text-xs font-semibold hover:bg-slate-700"
+                className="px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-xl hover:bg-slate-700"
               >
                 {t.close}
               </button>
@@ -478,9 +655,9 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
                     onInspectTask(selectedTaskDetails.id, 99, 'SuperAdmin Master');
                     setSelectedTaskDetails(null);
                   }}
-                  className="px-4 py-2 bg-emerald-400 text-slate-950 rounded-lg text-xs font-bold hover:bg-emerald-300 shadow"
+                  className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5"
                 >
-                  {t.btnApprove100}
+                  <Check className="w-4 h-4" /> {t.btnApprove100}
                 </button>
               )}
             </div>

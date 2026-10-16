@@ -2,7 +2,7 @@ export type ChannelType = 'direct' | 'airbnb' | 'vrbo' | 'booking' | 'owner_bloc
 
 export type ReservationStatus = 'confirmed' | 'in_house' | 'checked_out' | 'cancelled';
 
-export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'inspected' | 'needs_attention';
+export type TaskStatus = 'unconfirmed' | 'pending' | 'in_progress' | 'completed' | 'inspected' | 'needs_attention' | 'work_order';
 
 export interface Property {
   id: string;
@@ -36,10 +36,15 @@ export interface Reservation {
   checkInTime: string; // e.g. "16:00"
   checkOutTime: string; // e.g. "10:00"
   guestsCount: number;
+  adultsCount?: number;
+  childrenCount?: number;
   totalAmount: number;
   cleaningFee: number;
   status: ReservationStatus;
   notes?: string;
+  isOwnerBlock?: boolean;
+  blockReason?: string;
+  isTurnaround?: boolean;
 }
 
 export interface Cleaner {
@@ -52,6 +57,9 @@ export interface Cleaner {
   payoutRate: number;
   active: boolean;
   assignedPropertiesCount: number;
+  state?: string;
+  city?: string;
+  whatsapp?: string;
 }
 
 export interface ChecklistItem {
@@ -98,6 +106,9 @@ export interface CleaningTask {
   scheduledDate: string; // YYYY-MM-DD
   timeWindow: string; // e.g. "10:00 - 15:00"
   status: TaskStatus;
+  taskType?: 'cleaning' | 'inspection' | 'work_order';
+  isTurnaround?: boolean;
+  isVip?: boolean;
   startedAt?: string;
   completedAt?: string;
   inspectedAt?: string;

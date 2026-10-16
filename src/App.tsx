@@ -28,19 +28,45 @@ import { PmsView } from './components/PmsView';
 import { HousekeepingView } from './components/HousekeepingView';
 import { RolePortalView } from './components/RolePortalView';
 import { CleanerMobileView } from './components/CleanerMobileView';
+import { GoogleLoginModal } from './components/GoogleLoginModal';
+import { useAppRouter } from './router/useAppRouter';
 
 export function App() {
-  const [lang, setLang] = useState<Language>('pt');
-  const [currentTab, setCurrentTab] = useState<'landing' | 'pms' | 'resort' | 'portal' | 'cleaner'>('landing');
+  const [lang, setLang] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('helpus_cleaning_lang') as Language;
+      if (savedLang && ['pt', 'en', 'es'].includes(savedLang)) return savedLang;
+    }
+    return 'pt';
+  });
+
+  const { currentTab, navigateToTab, isLoginModalOpen, openLogin, closeLogin } = useAppRouter();
   const [currentRole, setCurrentRole] = useState<UserRole>('superadmin');
   const [forceCookieModal, setForceCookieModal] = useState(false);
 
-  // User Profile
-  const [user, setUser] = useState<{ name: string; email: string; avatar: string } | null>({
-    name: 'SuperAdmin HelpUS',
-    email: 'helpus.ecommerce@gmail.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80'
+  // User Profile with persistence
+  const [user, setUser] = useState<{ name: string; email: string; avatar: string } | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const saved = localStorage.getItem('helpus_cleaning_user');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // ignore
+      }
+    }
+    return {
+      name: 'SuperAdmin HelpUS',
+      email: 'helpus.ecommerce@gmail.com',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80'
+    };
   });
+
+  // Save language
+  const handleLangChange = (newLang: Language) => {
+    setLang(newLang);
+    localStorage.setItem('helpus_cleaning_lang', newLang);
+  };
 
   // Load from localStorage or mock
   const [properties, setProperties] = useState<Property[]>(() => {
@@ -272,23 +298,23 @@ export function App() {
     );
   };
 
+  const handleUserLogout = () => {
+    setUser(null);
+    localStorage.removeItem('helpus_cleaning_user');
+    localStorage.removeItem('helpus_google_auth_user');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans antialiased">
       {/* Official HelpUS Header */}
       <Header
         currentTab={currentTab}
-        onTabChange={setCurrentTab}
+        onTabChange={navigateToTab}
         lang={lang}
-        onLangChange={setLang}
+        onLangChange={handleLangChange}
         user={user}
-        onLogin={() =>
-          setUser({
-            name: 'SuperAdmin HelpUS',
-            email: 'helpus.ecommerce@gmail.com',
-            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
-          })
-        }
-        onLogout={() => setUser(null)}
+        onLogin={openLogin}
+        onLogout={handleUserLogout}
       />
 
       {/* Main App Body */}
@@ -298,9 +324,9 @@ export function App() {
             lang={lang}
             onSelectRoleDemo={(role) => {
               setCurrentRole(role);
-              setCurrentTab('portal');
+              navigateToTab('portal');
             }}
-            onNavigateToTab={(tab) => setCurrentTab(tab)}
+            onNavigateToTab={(tab) => navigateToTab(tab)}
           />
         )}
 
@@ -342,7 +368,7 @@ export function App() {
             onAddCompany={handleAddCompany}
             onAddCleaner={handleAddCleaner}
             onAddMaterial={handleAddMaterial}
-            onNavigateToMobileApp={() => setCurrentTab('cleaner')}
+            onNavigateToMobileApp={() => navigateToTab('cleaner')}
           />
         )}
 
@@ -369,6 +395,21 @@ export function App() {
         lang={lang}
         forceOpen={forceCookieModal}
         onCloseForceOpen={() => setForceCookieModal(false)}
+      />
+
+      {/* Google Account Authentication & RBAC Modal */}
+      <GoogleLoginModal
+        isOpen={isLoginModalOpen}
+        onClose={closeLogin}
+        lang={lang}
+        currentUser={user}
+        currentRole={currentRole}
+        onSelectRole={setCurrentRole}
+        onLoginSuccess={(loggedUser) => {
+          setUser(loggedUser);
+          localStorage.setItem('helpus_cleaning_user', JSON.stringify(loggedUser));
+        }}
+        onLogout={handleUserLogout}
       />
     </div>
   );

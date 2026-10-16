@@ -160,16 +160,24 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* User / Google Profile */}
           {user ? (
-            <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-lg py-1 px-2 sm:px-2.5">
-              <img src={user.avatar} alt={user.name} className="w-6 h-6 rounded-full border border-amber-400/50" />
+            <div
+              onClick={onLogin}
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800/80 cursor-pointer border border-slate-800 rounded-lg py-1 px-2 sm:px-2.5 transition shadow-sm"
+              title={t.loginAsRoleLabel}
+            >
+              <img src={user.avatar} alt={user.name} className="w-6 h-6 rounded-full border border-amber-400/50 object-cover" />
               <div className="hidden md:block text-left text-xs leading-tight">
                 <p className="font-semibold text-slate-200">{user.name}</p>
                 <p className="text-[10px] text-amber-400">{user.email}</p>
               </div>
               <button
-                onClick={onLogout}
-                className="text-xs text-slate-400 hover:text-red-400 ml-1 transition"
-                title="Sair"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLogout();
+                }}
+                className="text-xs text-slate-400 hover:text-red-400 ml-1 p-0.5 transition"
+                title={t.close}
               >
                 ✕
               </button>

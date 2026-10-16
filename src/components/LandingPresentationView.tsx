@@ -7,19 +7,12 @@ import {
   KeyRound,
   ShieldCheck,
   CheckCircle2,
-  Clock,
-  Camera,
   Users,
-  ChevronRight,
-  TrendingUp,
-  Zap,
-  Smartphone,
   Layers,
-  Package,
+  Smartphone,
   CalendarRange,
   ArrowRight,
-  BadgeCheck,
-  Star
+  Zap
 } from 'lucide-react';
 
 interface LandingPresentationViewProps {
@@ -64,7 +57,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                 {t.landingKpiTurnovers}
               </span>
               <p className="text-2xl font-black text-amber-400 mt-1">+120.000</p>
-              <span className="text-[10px] text-emerald-400 font-medium">Em condomínios de praia</span>
+              <span className="text-[10px] text-emerald-400 font-medium">{t.landingKpiTurnoversNote}</span>
             </div>
 
             <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
@@ -72,7 +65,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                 {t.landingKpiPunctuality}
               </span>
               <p className="text-2xl font-black text-sky-400 mt-1">99.8%</p>
-              <span className="text-[10px] text-slate-400 font-medium">Janela estrita de 6h (10h-16h)</span>
+              <span className="text-[10px] text-slate-400 font-medium">{t.landingKpiPunctualityNote}</span>
             </div>
 
             <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
@@ -80,15 +73,15 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                 {t.landingKpiInspections}
               </span>
               <p className="text-2xl font-black text-emerald-400 mt-1">100%</p>
-              <span className="text-[10px] text-slate-400 font-medium">Com fotos auditáveis</span>
+              <span className="text-[10px] text-slate-400 font-medium">{t.landingKpiInspectionsNote}</span>
             </div>
 
             <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                Tempo de Resposta
+                {t.landingKpiResponseTime}
               </span>
-              <p className="text-2xl font-black text-purple-400 mt-1">Zero Atrasos</p>
-              <span className="text-[10px] text-slate-400 font-medium">Sincronização em Nuvem</span>
+              <p className="text-2xl font-black text-purple-400 mt-1">{t.landingKpiZeroDelay}</p>
+              <span className="text-[10px] text-slate-400 font-medium">{t.landingKpiCloudSync}</span>
             </div>
           </div>
         </div>
@@ -174,30 +167,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 <span className="text-xs font-black uppercase text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
-                  Para Administradoras de Locação & PMs
+                  {t.pmBadge}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  Controle total de ponta a ponta sem planilhas ou surpresas
+                  {t.pmHeroTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Elimine o caos das trocas de hóspedes aos sábados. Quando uma reserva entra pelo Airbnb, Vrbo ou canal direto, a tarefa de limpeza é gerada instantaneamente no check-out com verificação de back-to-backs (T/A).
+                  {t.pmHeroDesc}
                 </p>
                 <ul className="space-y-2 text-xs text-slate-200">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Calendário horizontal Ribbon multunidades sincronizado</span>
+                    <span>{t.pmFeature1}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Gatilho de faxina automático com controle de check-in 16h / check-out 10h</span>
+                    <span>{t.pmFeature2}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Alertas visuais de giros no mesmo dia (Turn Arounds)</span>
+                    <span>{t.pmFeature3}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Faturamento transparente de taxas de limpeza por imóvel</span>
+                    <span>{t.pmFeature4}</span>
                   </li>
                 </ul>
 
@@ -209,7 +202,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     }}
                     className="flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow"
                   >
-                    <span>{t.btnTestPortalAs} Administradora</span>
+                    <span>{t.btnTestPortalAs} {t.portalAdminRole}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
@@ -217,30 +210,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-slate-700 transition"
                   >
                     <CalendarRange className="w-4 h-4 text-sky-400" />
-                    <span>Ver Calendário Ribbon</span>
+                    <span>{t.pmBtnRibbon}</span>
                   </button>
                 </div>
               </div>
 
               <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                  <span className="font-bold text-xs text-slate-200">Visão da Administradora</span>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono">100% Sincronizado</span>
+                  <span className="font-bold text-xs text-slate-200">{t.pmCardHeader}</span>
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono">{t.pmCardSync}</span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
                     <div>
                       <p className="font-bold text-white">Blue Water 1502</p>
-                      <p className="text-[11px] text-slate-400">Troca rápida 10h-16h (T/A)</p>
+                      <p className="text-[11px] text-slate-400">{t.pmCardTurnaround}</p>
                     </div>
-                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded">T/A ATIVO</span>
+                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded">T/A</span>
                   </div>
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
                     <div>
                       <p className="font-bold text-white">Shoalwater Oceanfront 205</p>
-                      <p className="text-[11px] text-slate-400">Inspeção Concluída (Nota 99)</p>
+                      <p className="text-[11px] text-slate-400">{t.pmCardInspected}</p>
                     </div>
-                    <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded">LIBERADO</span>
+                    <span className="text-[10px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded">{t.pmCardReleased}</span>
                   </div>
                 </div>
               </div>
@@ -251,30 +244,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 <span className="text-xs font-black uppercase text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
-                  Para Empresas de Housekeeping & Limpeza
+                  {t.companyBadge}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  Escalabilidade com controle de escalas, estoque e repasses
+                  {t.companyHeroTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Gerencie dezenas de diaristas e centenas de condomínios simultâneos. Aprove agendamentos em lote com um único clique, controle o consumo de lençóis e produtos químicos hospitalares, e emita pagamentos com precisão.
+                  {t.companyHeroDesc}
                 </p>
                 <ul className="space-y-2 text-xs text-slate-200">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Fila de confirmação de agendamentos em lote (Confirm All)</span>
+                    <span>{t.companyFeature1}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Gestão de estoque de enxoval (linens), produtos químicos e amenities</span>
+                    <span>{t.companyFeature2}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Roster de diaristas com geolocalização e envio de rota no WhatsApp</span>
+                    <span>{t.companyFeature3}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Controle de remuneração por casa e folha de pagamento em tempo real</span>
+                    <span>{t.companyFeature4}</span>
                   </li>
                 </ul>
 
@@ -286,7 +279,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     }}
                     className="flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow"
                   >
-                    <span>{t.btnTestPortalAs} Empresa de Limpeza</span>
+                    <span>{t.btnTestPortalAs} {t.portalCompanyRole}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
@@ -294,30 +287,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-slate-700 transition"
                   >
                     <Zap className="w-4 h-4 text-amber-400" />
-                    <span>Ver Painel Operacional HOJE</span>
+                    <span>{t.companyBtnBoard}</span>
                   </button>
                 </div>
               </div>
 
               <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                  <span className="font-bold text-xs text-slate-200">Painel Operacional da Empresa</span>
-                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-2 py-0.5 rounded">Controle de Insumos</span>
+                  <span className="font-bold text-xs text-slate-200">{t.companyCardHeader}</span>
+                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-2 py-0.5 rounded">{t.companyCardSupply}</span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
                     <div>
-                      <p className="font-bold text-white">Enxovais King 400 Fios</p>
-                      <p className="text-[11px] text-slate-400">Depósito Orange Beach</p>
+                      <p className="font-bold text-white">{t.companyCardLinens}</p>
+                      <p className="text-[11px] text-slate-400">Orange Beach Hub</p>
                     </div>
-                    <span className="font-mono text-emerald-400 font-bold">45 em estoque</span>
+                    <span className="font-mono text-emerald-400 font-bold">45 {t.companyCardStock}</span>
                   </div>
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
                     <div>
-                      <p className="font-bold text-white">Desinfetante Hospitalar 5L</p>
-                      <p className="text-[11px] text-slate-400">Depósito Gulf Shores</p>
+                      <p className="font-bold text-white">{t.companyCardChemical}</p>
+                      <p className="text-[11px] text-slate-400">Gulf Shores Central</p>
                     </div>
-                    <span className="font-mono text-amber-400 font-bold">24 em estoque</span>
+                    <span className="font-mono text-amber-400 font-bold">24 {t.companyCardStock}</span>
                   </div>
                 </div>
               </div>
@@ -328,30 +321,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 <span className="text-xs font-black uppercase text-sky-400 bg-sky-400/10 px-2.5 py-1 rounded border border-sky-400/20">
-                  Para Diaristas & Profissionais de Campo
+                  {t.cleanerBadge}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  Aplicativo de campo no celular sem papelada ou dúvidas
+                  {t.cleanerHeroTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  O diarista recebe sua rota diária direto no celular com endereço, senha da fechadura eletrônica e Wi-Fi. Faz o Clock-In ao chegar, segue o checklist obrigatório por cômodo, anexa fotos e finaliza com Clock-Out para liberação do pagamento.
+                  {t.cleanerHeroDesc}
                 </p>
                 <ul className="space-y-2 text-xs text-slate-200">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Acesso imediato à senha da fechadura e rede Wi-Fi</span>
+                    <span>{t.cleanerFeature1}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Checklist obrigatório por cômodo (cozinha, banheiros, quartos, varanda)</span>
+                    <span>{t.cleanerFeature2}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Envio de fotos antes/depois diretamente da câmera</span>
+                    <span>{t.cleanerFeature3}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Reporte imediato de avarias e achados & perdidos com foto</span>
+                    <span>{t.cleanerFeature4}</span>
                   </li>
                 </ul>
 
@@ -361,27 +354,27 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     className="flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow"
                   >
                     <Smartphone className="w-4 h-4" />
-                    <span>Abrir Simulador do App Cleaner</span>
+                    <span>{t.cleanerBtnSimulate}</span>
                   </button>
                 </div>
               </div>
 
               <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                  <span className="font-bold text-xs text-slate-200">Experiência no Smartphone</span>
+                  <span className="font-bold text-xs text-slate-200">{t.cleanerCardHeader}</span>
                   <span className="text-[10px] bg-sky-500/20 text-sky-400 px-2 py-0.5 rounded font-mono">📱 Mobile Ready</span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-bold text-white">Fechadura Eletrônica</span>
+                      <span className="font-bold text-white">{t.cleanerCardLock}</span>
                       <span className="font-mono text-amber-400 font-bold">5821#</span>
                     </div>
                     <p className="text-[11px] text-slate-400">Wi-Fi: BlueWater_1502_5G</p>
                   </div>
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-300">Checklist dos Cômodos:</span>
-                    <span className="font-bold text-emerald-400 font-mono">19/19 Verificados (100%)</span>
+                    <span className="text-slate-300">{t.progressRooms}:</span>
+                    <span className="font-bold text-emerald-400 font-mono">{t.cleanerCardVerified}</span>
                   </div>
                 </div>
               </div>
@@ -392,30 +385,30 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 <span className="text-xs font-black uppercase text-purple-400 bg-purple-400/10 px-2.5 py-1 rounded border border-purple-400/20">
-                  Para Proprietários de Imóveis (Owners)
+                  {t.ownerBadge}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  Visibilidade absoluta sobre a conservação do seu patrimônio
+                  {t.ownerHeroTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Chega de dúvidas sobre o estado da sua casa na praia. O proprietário tem acesso ao histórico de todas as limpezas realizadas, laudos de vistoria com galeria de fotos e pode solicitar o bloqueio de estadias próprias (Owner Stay) sem custos indevidos.
+                  {t.ownerHeroDesc}
                 </p>
                 <ul className="space-y-2 text-xs text-slate-200">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Relatórios de vistoria pós-limpeza com fotos de alta resolução</span>
+                    <span>{t.ownerFeature1}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Solicitação de estadias próprias (Owner Stays) com faxina automática ao sair</span>
+                    <span>{t.ownerFeature2}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Histórico de manutenções preventivas e proteção patrimonial</span>
+                    <span>{t.ownerFeature3}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Transparência total sem relatórios impressos ou atrasos</span>
+                    <span>{t.ownerFeature4}</span>
                   </li>
                 </ul>
 
@@ -427,7 +420,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     }}
                     className="flex items-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow"
                   >
-                    <span>{t.btnTestPortalAs} Proprietário</span>
+                    <span>{t.btnTestPortalAs} {t.portalOwnerRole}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -435,20 +428,20 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
 
               <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                  <span className="font-bold text-xs text-slate-200">Laudo do Proprietário</span>
-                  <span className="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono">Imóvel Auditado</span>
+                  <span className="font-bold text-xs text-slate-200">{t.ownerCardHeader}</span>
+                  <span className="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono">{t.ownerCardAudited}</span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-bold text-white">Vistoria Pós-Checkout</span>
-                      <span className="text-emerald-400 font-bold">Nota 99/100</span>
+                      <span className="font-bold text-white">{t.ownerCardCheckout}</span>
+                      <span className="text-emerald-400 font-bold">{t.scoreBadge} 99/100</span>
                     </div>
-                    <p className="text-[11px] text-slate-400">2 Fotos de evidência anexadas • Sem avarias</p>
+                    <p className="text-[11px] text-slate-400">{t.ownerCardPhotosAttached}</p>
                   </div>
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-300">Estadia do Proprietário:</span>
-                    <span className="font-bold text-purple-400">12 a 15 de Outubro (Reunião)</span>
+                    <span className="text-slate-300">{t.ownerCardStay}</span>
+                    <span className="font-bold text-purple-400">{t.ownerCardDates}</span>
                   </div>
                 </div>
               </div>
@@ -459,26 +452,26 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 <span className="text-xs font-black uppercase text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
-                  Para SuperAdmins & Gestores da Plataforma
+                  {t.superadminBadge}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  Governança centralizada e controle absoluto de todos os módulos
+                  {t.superadminHeroTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Acesso irrestrito para cadastrar e gerenciar Imóveis, Proprietários, Empresas de Limpeza, Diaristas e Estoques de Materiais. Monitoramento das integrações na nuvem e auditoria de cada operação.
+                  {t.superadminHeroDesc}
                 </p>
                 <ul className="space-y-2 text-xs text-slate-200">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Gestão completa de todas as entidades do sistema</span>
+                    <span>{t.superadminFeature1}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Permissões granulares de acesso por perfil de login</span>
+                    <span>{t.superadminFeature2}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Exportação de relatórios gerenciais e financeiros</span>
+                    <span>{t.superadminFeature3}</span>
                   </li>
                 </ul>
 
@@ -490,7 +483,7 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
                     }}
                     className="flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow"
                   >
-                    <span>{t.btnTestPortalAs} SuperAdmin Master</span>
+                    <span>{t.btnTestPortalAs} {t.portalSuperAdminRole}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -498,17 +491,17 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
 
               <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                  <span className="font-bold text-xs text-slate-200">Painel Master de Governança</span>
-                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-2 py-0.5 rounded">Total Access</span>
+                  <span className="font-bold text-xs text-slate-200">{t.superadminCardHeader}</span>
+                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-2 py-0.5 rounded">{t.superadminCardTotalAccess}</span>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-300">Imóveis Ativos:</span>
-                    <span className="font-bold text-white font-mono">5 Imóveis</span>
+                    <span className="text-slate-300">{t.superadminCardProps}</span>
+                    <span className="font-bold text-white font-mono">5 {t.totalProperties}</span>
                   </div>
                   <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span className="text-slate-300">Empresas & Diaristas:</span>
-                    <span className="font-bold text-white font-mono">2 Empresas • 4 Diaristas</span>
+                    <span className="text-slate-300">{t.superadminCardCrews}</span>
+                    <span className="font-bold text-white font-mono">2 {t.tabCompanies} • 4 {t.tabCleanersStaff}</span>
                   </div>
                 </div>
               </div>
@@ -521,10 +514,10 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
       <section className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-xl space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <h2 className="text-xl sm:text-2xl font-bold text-white">
-            Por que o HelpUS Cleaning substitui planilhas e softwares legados?
+            {t.matrixTitle}
           </h2>
           <p className="text-xs sm:text-sm text-slate-400">
-            Uma comparação direta da eficiência operacional para condomínios e casas de temporada:
+            {t.matrixSubtitle}
           </p>
         </div>
 
@@ -532,31 +525,31 @@ export const LandingPresentationView: React.FC<LandingPresentationViewProps> = (
           <table className="w-full text-xs text-left">
             <thead className="bg-slate-950 text-slate-400 uppercase font-bold text-[10px] border-b border-slate-800">
               <tr>
-                <th className="py-3 px-4">Funcionalidade Operacional</th>
-                <th className="py-3 px-4 text-slate-500">Método Tradicional / Planilhas</th>
-                <th className="py-3 px-4 text-amber-400 font-extrabold bg-amber-400/5">HelpUS Cleaning Hub</th>
+                <th className="py-3 px-4">{t.matrixColFeature}</th>
+                <th className="py-3 px-4 text-slate-500">{t.matrixColOld}</th>
+                <th className="py-3 px-4 text-amber-400 font-extrabold bg-amber-400/5">{t.matrixColNew}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-300">
               <tr>
-                <td className="py-3 px-4 font-semibold text-white">Turnovers Back-to-Back (T/A 10h-16h)</td>
-                <td className="py-3 px-4 text-slate-400">Avisos manuais por WhatsApp, alto risco de esquecimento</td>
-                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">Selo T/A prioritário automático e cronômetro em tempo real</td>
+                <td className="py-3 px-4 font-semibold text-white">{t.matrixRow1Title}</td>
+                <td className="py-3 px-4 text-slate-400">{t.matrixRow1Old}</td>
+                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">{t.matrixRow1New}</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-semibold text-white">Vistoria e Comprovação de Limpeza</td>
-                <td className="py-3 px-4 text-slate-400">Sem fotos ou relatórios perdidos em conversas privadas</td>
-                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">Galeria auditável de fotos com laudo aprovado para o proprietário</td>
+                <td className="py-3 px-4 font-semibold text-white">{t.matrixRow2Title}</td>
+                <td className="py-3 px-4 text-slate-400">{t.matrixRow2Old}</td>
+                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">{t.matrixRow2New}</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-semibold text-white">Controle de Enxoval & Insumos</td>
-                <td className="py-3 px-4 text-slate-400">Contagem manual, queixas de falta de toalhas e lençóis</td>
-                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">Módulo integrado de estoque com alerta de reposição mínima</td>
+                <td className="py-3 px-4 font-semibold text-white">{t.matrixRow3Title}</td>
+                <td className="py-3 px-4 text-slate-400">{t.matrixRow3Old}</td>
+                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">{t.matrixRow3New}</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-semibold text-white">Bloqueios de Proprietário (Owner Stays)</td>
-                <td className="py-3 px-4 text-slate-400">Cobranças indevidas de comissão ou esquecimento de faxina</td>
-                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">Estilo visual exclusivo no Ribbon, $0 de taxa e faxina garantida</td>
+                <td className="py-3 px-4 font-semibold text-white">{t.matrixRow4Title}</td>
+                <td className="py-3 px-4 text-slate-400">{t.matrixRow4Old}</td>
+                <td className="py-3 px-4 font-bold text-emerald-400 bg-amber-400/5">{t.matrixRow4New}</td>
               </tr>
             </tbody>
           </table>

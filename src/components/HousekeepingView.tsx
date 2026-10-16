@@ -120,7 +120,7 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
           </div>
         </div>
 
-        {/* RESORTCLEANING INSPIRED "TODAY'S OPERATIONS BOARD" */}
+        {/* HELPUS REAL-TIME "TODAY'S OPERATIONS BOARD" */}
         <div className="mt-6 pt-5 border-t border-slate-800/80">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-2">
@@ -291,7 +291,7 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
                         <p className="text-xs text-slate-400 truncate max-w-[200px]">{prop?.address}</p>
                       </div>
 
-                      {/* Status Badges conforming to ResortCleaning colors */}
+                      {/* Status Badges conforming to operational colors */}
                       <span
                         className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow whitespace-nowrap ${
                           isUnconfirmed
@@ -431,7 +431,7 @@ export const HousekeepingView: React.FC<HousekeepingViewProps> = ({
         </section>
       )}
 
-      {/* Cleaners & Staff Management Tab (Modeled after ResortCleaning staff-management) */}
+      {/* Cleaners & Staff Management Tab (HelpUS operations staff management) */}
       {selectedTab === 'cleaners' && (
         <section className="space-y-4">
           <div className="flex flex-wrap justify-between items-center gap-2">

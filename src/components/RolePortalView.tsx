@@ -241,7 +241,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                 currentRole === 'superadmin' ? 'bg-amber-400 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
               }`}
             >
-              SuperAdmin
+              {t.portalSuperAdminRole}
             </button>
 
             <button
@@ -250,7 +250,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                 currentRole === 'property_manager' ? 'bg-amber-400 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
               }`}
             >
-              Administradora
+              {t.portalAdminRole}
             </button>
 
             <button
@@ -259,7 +259,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                 currentRole === 'cleaning_company' ? 'bg-amber-400 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
               }`}
             >
-              Empresa Limpeza
+              {t.portalCompanyRole}
             </button>
 
             <button
@@ -268,7 +268,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                 currentRole === 'cleaner' ? 'bg-sky-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
               }`}
             >
-              Diarista
+              {t.portalCleanerRole}
             </button>
 
             <button
@@ -277,7 +277,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                 currentRole === 'owner' ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-white'
               }`}
             >
-              Proprietário
+              {t.portalOwnerRole}
             </button>
           </div>
         </div>
@@ -336,7 +336,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
 
           {currentRole === 'owner' && (
             <span className="text-xs text-purple-300 bg-purple-950/60 border border-purple-500/30 px-3 py-1.5 rounded-xl font-medium">
-              Ambiente exclusivo do Proprietário • Visualizando 2 imóveis em Gulf Shores, AL
+              {t.portalOwnerWelcome}
             </span>
           )}
 
@@ -346,7 +346,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
               className="flex items-center gap-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-black shadow transition"
             >
               <Smartphone className="w-4 h-4" />
-              <span>Abrir App Móvel de Campo</span>
+              <span>{t.portalCleanerAction}</span>
             </button>
           )}
         </div>
@@ -369,7 +369,7 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                   <img src={owner.avatar} alt={owner.name} className="w-12 h-12 rounded-full object-cover border border-purple-400" />
                   <div>
                     <h3 className="font-bold text-white text-sm">{owner.name}</h3>
-                    <p className="text-xs text-purple-400 font-semibold">{owner.propertiesCount} Imóveis Vinculados</p>
+                    <p className="text-xs text-purple-400 font-semibold">{owner.propertiesCount} {t.linkedPropsCount}</p>
                   </div>
                 </div>
                 <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 text-[11px] space-y-1 text-slate-300">
@@ -431,15 +431,15 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
 
                   <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs space-y-1">
                     <div className="flex justify-between text-slate-300">
-                      <span>Em Estoque:</span>
+                      <span>{t.stockInStock}</span>
                       <strong className="text-white font-mono">{mat.quantityInStock} {mat.unit}</strong>
                     </div>
                     <div className="flex justify-between text-slate-300">
-                      <span>Ponto de Pedido:</span>
+                      <span>{t.stockReorderPoint}</span>
                       <span className="text-slate-400 font-mono">{mat.minThreshold} {mat.unit}</span>
                     </div>
                     <div className="flex justify-between text-slate-300 pt-1 border-t border-slate-900">
-                      <span>Custo Unitário:</span>
+                      <span>{t.stockUnitCost}</span>
                       <strong className="text-emerald-400 font-mono">${mat.costPerUnit.toFixed(2)}</strong>
                     </div>
                     <p className="text-[10px] text-slate-500 truncate pt-1">📍 {mat.location}</p>
@@ -469,17 +469,17 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
                     <p className="text-xs text-slate-400">{comp.contactName} • {comp.address}</p>
                   </div>
                   <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded">
-                    Seguro Verificado
+                    {t.insuranceVerified}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
                   <div>
-                    <span className="text-slate-400 text-[10px] block">Diaristas Ativos</span>
-                    <strong className="text-white font-mono">{comp.activeStaffCount} profissionais</strong>
+                    <span className="text-slate-400 text-[10px] block">{t.activeCleanersCount}</span>
+                    <strong className="text-white font-mono">{comp.activeStaffCount}</strong>
                   </div>
                   <div>
-                    <span className="text-slate-400 text-[10px] block">Imóveis Atendidos</span>
-                    <strong className="text-amber-400 font-mono">{comp.assignedPropertiesCount} condomínios</strong>
+                    <span className="text-slate-400 text-[10px] block">{t.assignedUnitsCount}</span>
+                    <strong className="text-amber-400 font-mono">{comp.assignedPropertiesCount}</strong>
                   </div>
                 </div>
               </div>
@@ -494,10 +494,10 @@ export const RolePortalView: React.FC<RolePortalViewProps> = ({
           <div className="bg-purple-950/20 border border-purple-500/30 rounded-2xl p-5 space-y-2">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <KeyRound className="w-5 h-5 text-purple-400" />
-              Portal do Proprietário • Meus Imóveis
+              {t.ownerPortalHeading}
             </h2>
             <p className="text-xs text-slate-300">
-              Acompanhe o estado de conservação das suas unidades de praia, vistorias aprovadas e solicite estadias próprias sem taxa de limpeza.
+              {t.ownerPortalSubheading}
             </p>
           </div>
 

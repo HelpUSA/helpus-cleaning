@@ -348,7 +348,7 @@ export const PmsView: React.FC<PmsViewProps> = ({
           </div>
         </div>
 
-        {/* RIBBON TIMELINE VIEW (Modeled directly after Alex's ribbon workflow) */}
+        {/* RIBBON TIMELINE VIEW (HelpUS horizontal ribbon workflow) */}
         {viewMode === 'ribbon' ? (
           <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
             {/* Ribbon Timeline Header Info */}
@@ -594,7 +594,7 @@ export const PmsView: React.FC<PmsViewProps> = ({
         )}
       </section>
 
-      {/* Slide-over Booking Detail Drawer (Modelled after OwnerRez booking drawer) */}
+      {/* Slide-over Booking Detail Drawer (HelpUS quick-action drawer) */}
       {selectedDrawerRes && (
         <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/80 backdrop-blur-sm animate-fade-in">
           <div className="bg-slate-900 border-l border-slate-800 w-full max-w-md p-6 h-full overflow-y-auto space-y-6 shadow-2xl">
